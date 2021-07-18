@@ -80,7 +80,15 @@ module Jekyll
       private :main_entity
 
       def to_json
-        to_h.reject { |_k, v| v.nil? }.to_json
+        h = to_h.reject { |_k, v| v.nil? }.sort.to_h
+        s = "to_json hash:"
+        h.each do |key, value|
+          s += "\n  " + key.to_s + ": " + value.to_s
+        end
+        Jekyll.logger.debug s
+        json = h.to_json
+        Jekyll.logger.debug 'json: ' + json
+        json
       end
 
       private
